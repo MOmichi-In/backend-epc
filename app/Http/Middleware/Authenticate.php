@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
+
+class Authenticate extends Middleware
+{
+    protected function redirectTo(Request $request): ?string
+    {
+        // Rutas API siempre responden JSON, nunca redirigen
+        return $request->expectsJson() || $request->is('api/*')
+            ? null
+            : route('login');
+    }
+}
